@@ -39,10 +39,14 @@
 #include <sensor_msgs/image_encodings.hpp>
 #include <sensor_msgs/point_cloud2_iterator.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
-#include <cv_bridge/cv_bridge.hpp>
+#if defined(ROS2_HUMBLE)
+  #include <cv_bridge/cv_bridge.h>
+  #include <image_geometry/pinhole_camera_model.h>
+#elif defined(ROS2_JAMMY)
+  #include <cv_bridge/cv_bridge.hpp>
+  #include <image_geometry/pinhole_camera_model.hpp>
+#endif
 #include <opencv2/imgproc/imgproc.hpp>
-#include <image_geometry/pinhole_camera_model.hpp>
-
 #include <memory>
 #include <string>
 #include <vector>

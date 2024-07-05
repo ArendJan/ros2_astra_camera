@@ -12,6 +12,26 @@ if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif ()
 
+# Some includes changed between Humble and Jammy, so this next code checks for the ROS version to define a macro variable
+# in the Cpp/Hpp files, the correct header files can be included based on this macro
+set(ROS_FOUND FALSE)
+if(DEFINED ENV{ROS_DISTRO})
+  set(FOUND_ROS_DISTRO $ENV{ROS_DISTRO})
+  set(ROS_FOUND TRUE)
+endif()
+if(ROS_FOUND)
+  message("Using ROS distro: " $ENV{ROS_DISTRO}) 
+  if($ENV{ROS_DISTRO} STREQUAL "humble")
+    add_compile_definitions(ROS2_HUMBLE)
+  elseif($ENV{ROS_DISTRO} STREQUAL "jammy")
+  add_compile_definitions(ROS2_JAMMY)
+  endif()
+else()
+  message("ROS distro is unknown. Compilation might fail. Fallback to humble")
+  add_compile_definitions(ROS2_HUMBLE)
+endif()
+
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(ament_cmake REQUIRED)

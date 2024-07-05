@@ -14,12 +14,18 @@
 #include <rclcpp/rclcpp.hpp>
 
 namespace astra_camera {
+  #if defined(ROS2_HUMBLE) // Jammy changed the name, just moving 'Set' forwards
+  using OnSetCallback = rclcpp::node_interfaces::NodeParametersInterface::OnParametersSetCallbackType;
+#elif defined(ROS2_JAMMY)
+  using OnSetCallback = rclcpp::node_interfaces::NodeParametersInterface::OnSetParametersCallbackType;
+#endif
+
 class ParametersBackend {
  public:
   explicit ParametersBackend(rclcpp::Node* node);
   ~ParametersBackend();
   void addOnSetParametersCallback(
-      rclcpp::node_interfaces::NodeParametersInterface::OnSetParametersCallbackType callback);
+       OnSetCallback callback);
 
  private:
   rclcpp::Node* node_;
