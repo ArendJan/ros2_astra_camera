@@ -56,8 +56,8 @@ PointCloudXyzNode::PointCloudXyzNode(rclcpp::Node *const node,
   depth_qos_profile_ = getRMWQosProfileFromString(depth_qos);
   // Monitor whether anyone is subscribed to the output
   // TODO(ros2) Implement when SubscriberStatusCallback is available
-  // ros::SubscriberStatusCallback connect_cb = boost::bind(&PointCloudXyzNode::connectCb, this);
-  connectCb();
+  // auto connect_cb = std::bind(&PointCloudXyzNode::connectCb, this);
+  // connectCb();
 
   // Make sure we don't enter connectCb() between advertising and assigning to pub_point_cloud_
   std::scoped_lock<decltype(connect_mutex_)> lock(connect_mutex_);
@@ -66,6 +66,24 @@ PointCloudXyzNode::PointCloudXyzNode(rclcpp::Node *const node,
   pub_point_cloud_ = node_->create_publisher<PointCloud2>(
       "depth/points", rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(point_cloud_qos_profile_),
                                   point_cloud_qos_profile_));
+  // pub_point_cloud_->get_subscription_count();
+  
+  // create timer for publishing point cloud
+  bool has_subscribers = false;
+  timer_ = node_->create_wall_timer(std::chrono::milliseconds(1000), [this, &has_subscribers]() {
+      std::cout << "timer" << this->pub_point_cloud_->get_subscription_count() << std::endl;
+      if(this->pub_point_cloud_->get_subscription_count() > 0 && has_subscribers == false) {
+        RCLCPP_INFO(node_->get_logger(), "Publishing point cloud");
+        this->connectCb();
+        // this->pub_point_cloud_->publish(*cloud_msg);
+      } else if(this->pub_point_cloud_->get_subscription_count() == 0 && has_subscribers == true) {
+        RCLCPP_INFO(node_->get_logger(), "No subscribers, stopping publishing point cloud");
+        // this->pub_point_cloud_->publish(*cloud_msg);
+        this->connectCb();
+      }
+      has_subscribers = this->pub_point_cloud_->get_subscription_count() > 0;
+      
+    });
 }
 
 template <typename T>
@@ -113,7 +131,9 @@ void PointCloudXyzNode::convertDepth(const sensor_msgs::msg::Image::ConstSharedP
 // Handles (un)subscribing when clients (un)subscribe
 void PointCloudXyzNode::connectCb() {
   std::scoped_lock<decltype(connect_mutex_)> lock(connect_mutex_);
-  if (!sub_depth_) {
+  if(pub_point_cloud_->get_subscription_count() == 0) {
+    sub_depth_.shutdown();
+  } else if (!sub_depth_) {
     auto custom_qos = depth_qos_profile_;
     custom_qos.depth = queue_size_;
 
@@ -149,7 +169,6 @@ void PointCloudXyzNode::depthCb(const Image::ConstSharedPtr &depth_msg,
     RCLCPP_ERROR(logger_, "Depth image has unsupported encoding [%s]", depth_msg->encoding.c_str());
     return;
   }
-
   pub_point_cloud_->publish(*cloud_msg);
 }
 

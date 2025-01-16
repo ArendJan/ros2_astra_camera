@@ -88,6 +88,7 @@ class PointCloudXyzrgbNode {
   using ExactSynchronizer = message_filters::Synchronizer<ExactSyncPolicy>;
   std::shared_ptr<Synchronizer> sync_;
   std::shared_ptr<ExactSynchronizer> exact_sync_;
+  rclcpp::TimerBase::SharedPtr timer_;
 
   // Publications
   std::mutex connect_mutex_;

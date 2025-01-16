@@ -99,6 +99,23 @@ PointCloudXyzrgbNode::PointCloudXyzrgbNode(rclcpp::Node* const node,
       rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(point_cloud_qos_profile_),
                   point_cloud_qos_profile_));
   // TODO(ros2) Implement connect_cb when SubscriberStatusCallback is available
+    bool has_subscribers = false;
+    std::cout << "start xyzrgb" << std::endl;
+    timer_ = node_->create_wall_timer(std::chrono::milliseconds(1000), [this, &has_subscribers]() {
+      std::cout << "timer" << this->pub_point_cloud_->get_subscription_count() << std::endl;
+      if(this->pub_point_cloud_->get_subscription_count() > 0 && has_subscribers == false) {
+        RCLCPP_INFO(node_->get_logger(), "Publishing point cloud");
+        this->connectCb();
+        // this->pub_point_cloud_->publish(*cloud_msg);
+      } else if(this->pub_point_cloud_->get_subscription_count() == 0 && has_subscribers == true) {
+        RCLCPP_INFO(node_->get_logger(), "No subscribers, stopping publishing point cloud");
+        // this->pub_point_cloud_->publish(*cloud_msg);
+        this->connectCb();
+      }
+      has_subscribers = this->pub_point_cloud_->get_subscription_count() > 0;
+      
+    });
+
 }
 
 void PointCloudXyzrgbNode::convertRgb(const sensor_msgs::msg::Image::ConstSharedPtr& rgb_msg,
@@ -124,16 +141,21 @@ void PointCloudXyzrgbNode::connectCb() {
   std::lock_guard<std::mutex> lock(connect_mutex_);
   // TODO(ros2) Implement getNumSubscribers when rcl/rmw support it
   // parameter for depth_image_transport hint
+   if(pub_point_cloud_->get_subscription_count() == 0) {
+    sub_depth_.unsubscribe();
+    sub_rgb_.unsubscribe();
+  } else {
   std::string depth_image_transport_param = "depth_image_transport";
   image_transport::TransportHints depth_hints(node_, "raw", depth_image_transport_param);
 
   // depth image can use different transport.(e.g. compressedDepth)
   sub_depth_.subscribe(node_, "depth/image_raw", depth_hints.getTransport(), depth_qos_profile_);
-
+  // sub_depth_.
   // rgb uses normal ros transport hints.
   image_transport::TransportHints hints(node_, "raw");
   sub_rgb_.subscribe(node_, "color/image_raw", hints.getTransport(), color_qos_profile_);
   sub_info_.subscribe(node_, "color/camera_info", info_qos_profile_);
+  }
 }
 
 void PointCloudXyzrgbNode::imageCb(const Image::ConstSharedPtr& depth_msg,

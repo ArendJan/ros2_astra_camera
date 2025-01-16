@@ -74,7 +74,7 @@ class PointCloudXyzNode {
   // Publications
   std::mutex connect_mutex_;
   rclcpp::Publisher<PointCloud2>::SharedPtr pub_point_cloud_;
-
+  rclcpp::TimerBase::SharedPtr timer_;
   image_geometry::PinholeCameraModel model_;
 
   void connectCb();

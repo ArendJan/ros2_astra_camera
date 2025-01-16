@@ -387,6 +387,9 @@ void OBCameraNode::setupPublishers() {
       std::string topic = name + "/image_raw";
       auto image_qos = image_qos_[stream_index];
       auto image_qos_profile = getRMWQosProfileFromString(image_qos);
+      std::cout << "start image publisher" << std::endl;
+      // TODO: Fix this publishing after subscribe!
+      
       image_publishers_[stream_index] = image_transport::create_publisher(node_, topic, image_qos_profile);
       topic = name + "/camera_info";
       auto camera_info_qos = camera_info_qos_[stream_index];
