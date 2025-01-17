@@ -155,6 +155,7 @@ class UVCCameraDriver {
   rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_publisher_;
   sensor_msgs::msg::CameraInfo camera_info_;
   std::unique_ptr<camera_info_manager::CameraInfoManager> camera_info_manager_ = nullptr;
+  rclcpp::TimerBase::SharedPtr timer_;
   int device_num_ = 1;
 };
 

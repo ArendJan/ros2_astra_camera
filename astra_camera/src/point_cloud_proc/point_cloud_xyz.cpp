@@ -54,14 +54,9 @@ PointCloudXyzNode::PointCloudXyzNode(rclcpp::Node *const node,
                                       "default");
   setAndGetNodeParameter<std::string>(parameters_, depth_qos, "depth_qos", "default");
   depth_qos_profile_ = getRMWQosProfileFromString(depth_qos);
-  // Monitor whether anyone is subscribed to the output
-  // TODO(ros2) Implement when SubscriberStatusCallback is available
-  // auto connect_cb = std::bind(&PointCloudXyzNode::connectCb, this);
-  // connectCb();
 
   // Make sure we don't enter connectCb() between advertising and assigning to pub_point_cloud_
   std::scoped_lock<decltype(connect_mutex_)> lock(connect_mutex_);
-  // TODO(ros2) Implement when SubscriberStatusCallback is available
   point_cloud_qos_profile_ = getRMWQosProfileFromString(point_cloud_qos);
   pub_point_cloud_ = node_->create_publisher<PointCloud2>(
       "depth/points", rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(point_cloud_qos_profile_),

@@ -24,7 +24,7 @@ void OBCameraNode::init() {
   std::scoped_lock<decltype(device_lock_)> lock(device_lock_);
   setupConfig();
   setupTopics();
-  startStreams();
+  // startStreams();
   run_streaming_poller_ = true;
   poll_stream_thread_ = std::make_shared<std::thread>([this]() { pollFrame(); });
   if (enable_point_cloud_) {
@@ -381,24 +381,51 @@ void OBCameraNode::setupTopics() {
 }
 
 void OBCameraNode::setupPublishers() {
+  auto publishers = std::vector<image_transport::Publisher>();
+  bool anyPubs = false;
   for (const auto& stream_index : IMAGE_STREAMS) {
     if (enable_stream_[stream_index]) {
       std::string name = stream_name_[stream_index];
       std::string topic = name + "/image_raw";
       auto image_qos = image_qos_[stream_index];
       auto image_qos_profile = getRMWQosProfileFromString(image_qos);
-      std::cout << "start image publisher" << std::endl;
-      // TODO: Fix this publishing after subscribe!
-      
+      std::cout << "start image publisher " << name << std::endl;
+
       image_publishers_[stream_index] = image_transport::create_publisher(node_, topic, image_qos_profile);
+      // image_publishers_[stream_index].getNumSubscribers
       topic = name + "/camera_info";
       auto camera_info_qos = camera_info_qos_[stream_index];
       auto camera_info_qos_profile = getRMWQosProfileFromString(camera_info_qos);
       camera_info_publishers_[stream_index] = node_->create_publisher<CameraInfo>(
           topic, rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(camera_info_qos_profile),
                              camera_info_qos_profile));
+      anyPubs = true;
+      publishers.push_back(image_publishers_[stream_index]);
     }
   }
+  
+  if(anyPubs) {
+    bool has_subscribers = false;
+    timer_ = node_->create_wall_timer(std::chrono::milliseconds(1000), [this, &has_subscribers, publishers]() {
+      // std::cout << "timer" << this->pub_point_cloud_->get_subscription_count() << std::endl;
+      bool has_subs_curr = std::any_of(publishers.begin(), publishers.end(), [](auto pub) {
+        return pub.getNumSubscribers() > 0;
+      });
+      std::cout << "has_subs_curr: " << has_subs_curr << std::endl;
+      if(has_subs_curr && has_subscribers == false) {
+        RCLCPP_INFO(node_->get_logger(), "Publishing point cloud");
+        this->startStreams();
+        // this->pub_point_cloud_->publish(*cloud_msg);
+      } else if(!has_subs_curr && has_subscribers == true) {
+        RCLCPP_INFO(node_->get_logger(), "No subscribers, stopping publishing point cloud");
+        // this->pub_point_cloud_->publish(*cloud_msg);
+        this->stopStreams();
+      }
+      has_subscribers = has_subs_curr;
+      
+    });
+  }
+
   if (enable_publish_extrinsic_) {
     extrinsics_publisher_ = node_->create_publisher<Extrinsics>("extrinsic/depth_to_color",
                                                                 rclcpp::QoS{1}.transient_local());

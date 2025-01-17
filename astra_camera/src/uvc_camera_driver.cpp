@@ -99,6 +99,17 @@ UVCCameraDriver::UVCCameraDriver(rclcpp::Node* node, std::shared_ptr<Parameters>
                                        color_info_qos_profile_));
   setupCameraControlService();
   openCamera();
+  timer_ = node_->create_wall_timer(std::chrono::milliseconds(1000), [this]() {
+    if (image_publisher_.getNumSubscribers() > 0) {
+      if (!is_streaming_started) {
+        startStreaming();
+      }
+    } else {
+      if (is_streaming_started) {
+        stopStreaming();
+      }
+    }
+  });
 }
 
 UVCCameraDriver::~UVCCameraDriver() {

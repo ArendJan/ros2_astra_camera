@@ -273,6 +273,8 @@ class OBCameraNode {
   std::string color_info_url_;
   std::string ir_info_url_;
   bool enable_publish_extrinsic_ = false;
+rclcpp::TimerBase::SharedPtr timer_;
+
 };
 
 }  // namespace astra_camera
