@@ -1,0 +1,9 @@
+astra_camera_msgs:
+  ubuntu:
+  - ros-humble-astra-camera-msgs
+libuvc:
+  ubuntu:
+  - ros-humble-libuvc
+astra_camera:
+  ubuntu:
+  - ros-humble-astra-camera
