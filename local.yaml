@@ -1,0 +1,9 @@
+astra_camera_msgs:
+  ubuntu:
+  - ros-jazzy-astra-camera-msgs
+libuvc:
+  ubuntu:
+  - ros-jazzy-libuvc
+astra_camera:
+  ubuntu:
+  - ros-jazzy-astra-camera

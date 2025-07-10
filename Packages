@@ -1,0 +1,108 @@
+Package: ros-jazzy-astra-camera-dbgsym
+Package-Type: ddeb
+Architecture: amd64
+Version: 2-2025.07.10.14.02
+Auto-Built-Package: debug-symbols
+Priority: optional
+Section: debug
+Source: ros-jazzy-astra-camera
+Maintainer: Joe Dong <jian.dong@pobox.com>
+Installed-Size: 13358
+Depends: ros-jazzy-astra-camera (= 2-2025.07.10.14.02)
+Filename: ./ros-jazzy-astra-camera-dbgsym_2-2025.07.10.14.02_amd64.ddeb
+Size: 12142008
+MD5sum: 99b1e87b88da56b9e0522cc388afcf23
+SHA1: 1941ab92c1772a4410594f54a4c38ee16afb7bcc
+SHA256: 8a4580f1ca364cb2cf09c7c0e12af1aa20fba268d0b5f9713367789fc3c704e2
+SHA512: e52e6b8e8ac5d1f574a369682059ffafe5ee4c7a447bda06bc43792627e15de8b622569f0736467af79cbd15827a08da7bf059bb5f594777bd10debd813cc35e
+Description: debug symbols for ros-jazzy-astra-camera
+Build-Ids: 0362f5496afabbddfc95adda303bf572deaa43b9 2980976d228b0a1006f3ae43d4d226419c86d2d4 3a26e6cddd16fb4622c4e340739865da4fcee635 90e71d99c0c746dd570e0eac8691851688ce68f2 b983ba9d8b23a2627de023c4c3fd060444bde69b cc790eb5be710c89831137ee49ed53cc64075b96 f666f795c3b2ca566e185f2764cbb3705af4b099
+
+Package: ros-jazzy-astra-camera-msgs-dbgsym
+Package-Type: ddeb
+Architecture: amd64
+Version: 2-2025.07.10.14.00
+Auto-Built-Package: debug-symbols
+Priority: optional
+Section: debug
+Source: ros-jazzy-astra-camera-msgs
+Maintainer: Joe Dong <mocun@orbbec.com>
+Installed-Size: 2476
+Depends: ros-jazzy-astra-camera-msgs (= 2-2025.07.10.14.00)
+Filename: ./ros-jazzy-astra-camera-msgs-dbgsym_2-2025.07.10.14.00_amd64.ddeb
+Size: 1979820
+MD5sum: 5e78c000b89df2a281999543daa6bfb5
+SHA1: ca5e185cb94ceec5b3fe07101d87f52d5e0c92db
+SHA256: 28ddfc26ee2550ba61f394d8365435d551e49395876095ce9e7575d52040f162
+SHA512: e5b6d854b74c5ae95cac6479438b552ea20efc1d9827f676df058c80de12d6049c7fda70ebdead4ef1d860f648b35bf35e61b8b5e67fe6c8bdec9d0e9b6704ae
+Description: debug symbols for ros-jazzy-astra-camera-msgs
+Build-Ids: 1780a6541116fbaee3aee826f50b1a02ec628694 17d0b5edb89462b60424ad5636023495e9afb7d1 24dc126d71d17bfa9b7f7a07ee0b21489f5ad3a7 3624fa93937768b8825406ee0377fbd365f3271f 4e1eec33bc853f199affece03a35b13b0919c46d 56757a60cb8d2b21f4f2ba4c8a4abcd5c4e1a094 57533ec464caf4fc45bf2fd5e56cff8e41f56f1d 869bfa7c2fbd4058b5dd4671cf3bfecd5335d929 a27f9e40a99b6ac19910a296625ff44d4c5b4dd8 cbb62b4a046dcce20c16a66d9b351feba70e4479 e8ed3bd3b47e2224dc4522c56d645cf3fbc94194
+
+Package: ros-jazzy-astra-camera-msgs
+Architecture: amd64
+Version: 2-2025.07.10.14.00
+Priority: optional
+Section: misc
+Maintainer: Joe Dong <mocun@orbbec.com>
+Installed-Size: 3243
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.3.1), libpython3.12t64 (>= 3.12.1), libstdc++6 (>= 11), ros-jazzy-fastcdr, ros-jazzy-rosidl-default-runtime, ros-jazzy-sensor-msgs
+Filename: ./ros-jazzy-astra-camera-msgs_2-2025.07.10.14.00_amd64.deb
+Size: 221670
+MD5sum: 08e945efc24f2461152148a07d38a567
+SHA1: 8f96836961ab6c290c0b9852aa07eb55fd3d8569
+SHA256: c688011714a8e4cbcae68201405d4cd3350feaf95950e52b0abe15265647b765
+SHA512: ab253d12be9f2e9ac6ce6a67f7455b8db12f184e4118eb9302861a908783dfe07858c278f0419ad089af850e1ffce62cb7bcfbc46063402ede5f0e28d075f56d
+Description: A package containing orbbec camera messages definitions.
+
+Package: ros-jazzy-astra-camera
+Architecture: amd64
+Version: 2-2025.07.10.14.02
+Priority: optional
+Section: misc
+Maintainer: Joe Dong <jian.dong@pobox.com>
+Installed-Size: 4940
+Depends: libc6 (>= 2.34), libconsole-bridge1.0 (>= 1.0.1+dfsg2), libgcc-s1 (>= 3.3.1), libgoogle-glog0v6t64 (>= 0.6.0), libopencv-core406t64 (>= 4.6.0+dfsg), libopencv-imgproc406t64 (>= 4.6.0+dfsg), libopencv-stitching406t64 (>= 4.6.0+dfsg), libstdc++6 (>= 13.1), libudev1 (>= 183), libusb-1.0-0 (>= 2:1.0.8), ros-jazzy-libuvc, libgoogle-glog-dev, nlohmann-json3-dev, ros-jazzy-ament-index-cpp, ros-jazzy-ament-lint-auto, ros-jazzy-ament-lint-common, ros-jazzy-astra-camera-msgs, ros-jazzy-builtin-interfaces, ros-jazzy-camera-info-manager, ros-jazzy-class-loader, ros-jazzy-cv-bridge, ros-jazzy-draco-point-cloud-transport, ros-jazzy-image-geometry, ros-jazzy-image-publisher, ros-jazzy-image-transport, ros-jazzy-message-filters, ros-jazzy-point-cloud-transport, ros-jazzy-rclcpp, ros-jazzy-rclcpp-components, ros-jazzy-sensor-msgs, ros-jazzy-std-msgs, ros-jazzy-std-srvs, ros-jazzy-tf2, ros-jazzy-tf2-eigen, ros-jazzy-tf2-msgs, ros-jazzy-tf2-ros, ros-jazzy-tf2-sensor-msgs, ros-jazzy-zlib-point-cloud-transport, ros-jazzy-zstd-point-cloud-transport
+Filename: ./ros-jazzy-astra-camera_2-2025.07.10.14.02_amd64.deb
+Size: 1113394
+MD5sum: faca60d0866770f9024648c65bd2d046
+SHA1: bec66b870b633bf337d18fc7641628c15cd2f313
+SHA256: b72b352f1e3f6d3fbbf133e37b3ea52361e79b06dc6977b5b47268c8840e6881
+SHA512: 34d1abb7d0864c811c75429e85f38afc931dbcd9633f0156b0bf3962566897f4fd7f6fb9276594620e043a03235077e52ac6702a2719655b7058a8a3cddf6041
+Description: TODO: Package description
+
+Package: ros-jazzy-libuvc-dbgsym
+Package-Type: ddeb
+Architecture: amd64
+Version: 2-2025.07.10.14.02
+Auto-Built-Package: debug-symbols
+Priority: optional
+Section: debug
+Source: ros-jazzy-libuvc
+Maintainer: test <asdf@test.nl>
+Installed-Size: 125
+Depends: ros-jazzy-libuvc (= 2-2025.07.10.14.02)
+Filename: ./ros-jazzy-libuvc-dbgsym_2-2025.07.10.14.02_amd64.ddeb
+Size: 98706
+MD5sum: 27c3f263e0e970bcfaac7bd860efe4d8
+SHA1: f2a25c2ce29388c0d9d39da99714ea589633b187
+SHA256: 15c1a6cca167d7aafa8f5a8fca4f26b32d8e0a94a2bb4b22b84a1e321e211479
+SHA512: 7f8847f2f28d646b273b572e66c71e802ddeb61a5fd33cb5f2aa63026dbd557c972f9a204770714dbf74582b363f715678738e7abc4a5576f6c5846b9173b832
+Description: debug symbols for ros-jazzy-libuvc
+Build-Ids: 6b8eae8da00db2821ef9999f025d66ee0fe53a17
+
+Package: ros-jazzy-libuvc
+Architecture: amd64
+Version: 2-2025.07.10.14.02
+Priority: optional
+Section: misc
+Maintainer: test <asdf@test.nl>
+Installed-Size: 570
+Depends: libc6 (>= 2.34), libjpeg8 (>= 8c), libusb-1.0-0 (>= 2:1.0.23~), libjpeg-dev, libusb-1.0-0-dev
+Filename: ./ros-jazzy-libuvc_2-2025.07.10.14.02_amd64.deb
+Size: 60238
+MD5sum: 79a28046d9bb7c0cfebde4baea4305ef
+SHA1: 32d49401e3c654af518d4e0ee35e243b0d6b84e9
+SHA256: bf86dbee88fb93c717168abbe2d26ff8ffc44c491d064fca6bbe319f47d8674f
+SHA512: a5f9a2e6a8eb876b413d1ddc2452156622cf6a30cb6dee87d533aa35fb4523acd3387e836dedfb1f95085296b921dd071b619b75f0c82bdbf8da08c4379d1091
+Description: libuvc
+
