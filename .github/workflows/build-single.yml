@@ -43,6 +43,6 @@ jobs:
 
         #   SBUILD_CONF: "$enable_network = 1;"
         #   Skip pushing to repo when not on main branch
-          SKIP_PUSH: ${{ github.event_name == 'pull_request' || (github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop') }}
+          SKIP_PUSH: ${{ github.event_name == 'pull_request' || (github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/fix-ros-jammy' ) }}
           UPLOAD_ARTIFACTS: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
           CONTINUE_ON_ERROR: true # allows for failing builds
