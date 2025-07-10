@@ -1,0 +1,5 @@
+repositories:
+  libuvc:
+    type: git
+    url: https://github.com/ArendJan/libuvc.git
+    version: f89008d9dd4cf46946661451bce0c4d1fa00383a
