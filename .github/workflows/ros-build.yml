@@ -5,51 +5,19 @@ on:
 permissions:
   contents: write
 jobs:
-  build_testing:
-    runs-on: ${{ matrix.arch == 'amd64' && 'ubuntu-22.04' || 'ubuntu-22.04' }}
+  build:
     strategy:
-        matrix:
-                ros_distro: [humble, 
-                  # jazzy
-                  ]
-                deb_distro: [jammy, 
-                  # noble
-                  ]
-                arch: [
-                    amd64, 
-                    arm64, 
-                    # armhf
-                    ]
-                exclude:
-                  - ros_distro: humble
-                    deb_distro: noble
-                    # arch: arm64
-                  - ros_distro: jazzy
-                    deb_distro: jammy
-                    # arch: arm64
+      matrix:
+        arch: ['amd64', 'arm64']
+        ros_distro: [humble, jazzy]
+        include:
+          - ubuntu_version: '22.04'
+            ros_distro: humble
+          - ubuntu_version: '24.04'
+            ros_distro: jazzy
 
-        fail-fast: false
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-      - name: self-checkout
-        run: |
-              mkdir -p ./srcO/
-              mv ./astra_* ./srcO/
-              rm -rf ./src
-      - uses: arendjan/ros-deb-builder-action@upmain # allows for failing builds
-        with:
-          ROS_DISTRO: ${{ matrix.ros_distro }}
-          DEB_DISTRO: ${{ matrix.deb_distro }}
-          DEB_ARCH: ${{ matrix.arch }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOS_FILE: ./sources.repos
-          SKIP_CHECKOUT: true
-          PACKAGES_BRANCH: ros_mirte_${{ matrix.ros_distro }}_${{ matrix.deb_distro }}_${{ matrix.arch }}${{ github.ref == 'refs/heads/develop' && '_develop' || '' }}
-
-        #   SBUILD_CONF: "$enable_network = 1;"
-        #   Skip pushing to repo when not on main branch
-          SKIP_PUSH: ${{ github.event_name == 'pull_request' || (github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop') }}
-          UPLOAD_ARTIFACTS: ${{ github.ref != 'refs/heads/main'  && github.ref != 'refs/heads/develop' }}
-          CONTINUE_ON_ERROR: true # allows for failing builds
+    uses: ./.github/workflows/build-single.yml
+    with:
+      arch: ${{ matrix.arch }}
+      ubuntu_version: ${{ matrix.ubuntu_version }}
+      ros_distro: ${{ matrix.ros_distro }}

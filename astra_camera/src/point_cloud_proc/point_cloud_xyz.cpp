@@ -34,11 +34,13 @@
 
 #include <image_transport/image_transport.hpp>
 #include <sensor_msgs/image_encodings.hpp>
-#if defined(ROS2_HUMBLE)
-#include <image_geometry/pinhole_camera_model.h>
-#elif defined(ROS2_JAMMY)
-#include <image_geometry/pinhole_camera_model.hpp>
+
+#if __has_include(<image_geometry/pinhole_camera_model.hpp>)
+  #include <image_geometry/pinhole_camera_model.hpp>
+#else
+  #include <image_geometry/pinhole_camera_model.h>
 #endif
+
 #include "astra_camera/point_cloud_proc/point_cloud_xyz.h"
 #include <point_cloud_transport/point_cloud_transport.hpp>
 

@@ -12,10 +12,11 @@
 
 #include <utility>
 #include <opencv2/opencv.hpp>
-#if defined(ROS2_HUMBLE)
-#include <cv_bridge/cv_bridge.h>
-#elif defined(ROS2_JAMMY)
-#include <cv_bridge/cv_bridge.hpp>
+
+#if __has_include(<cv_bridge/cv_bridge.hpp>)
+  #include <cv_bridge/cv_bridge.hpp>
+#else
+  #include <cv_bridge/cv_bridge.h>
 #endif
 #include "astra_camera/uvc_camera_driver.h"
 #include "astra_camera/utils.h"
